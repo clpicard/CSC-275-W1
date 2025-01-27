@@ -1,76 +1,79 @@
-#include<iostream>
-#include<string>
 
+
+#include <iostream>
 using namespace std;
 
-class ATM{
-public:
-    void initBalance(float amount);
-    void showBalance();
-    void deposit(float amount);
-    bool withdraw(float amount);
-    int getTransactions();
-
+class ATM {
 private:
     float balance;
     int numOfTransactions;
 
-};
+public:
 
-int main()
-{
-    ATM atm_obj;
-    atm_obj.initBalance(250);
-    atm_obj.showBalance();
-    atm_obj.deposit(250);
-    /*
-    atm_obj.balance=250;
-    atm_obj.showBalance();
-    atm_obj.deposit(250);
-    atm_obj.showBalance();
-    */
-    cout<<atm_obj.withdraw(100)<<endl;
-
-    atm_obj.showBalance();
-
-    cout<<atm_obj.getTransactions()<<endl;
-
-
-}
-
-void ATM::initBalance(float amount)
-{
-    balance = amount;
-    numOfTransactions=0;
-}
-
-void ATM::showBalance()
-{
-    cout<<balance<<endl;
-}
-
-void ATM::deposit(float amount)
-{
-    balance+=amount;
-    numOfTransactions++;
-}
-
-bool ATM::withdraw(float amount)
-{
-    if (balance>=amount)
-    {
-        balance-=amount;
-        cout<<"remaining balance = "<<balance<<endl;
-        numOfTransactions++;
-        return true;
-    }else{
-
-        return false;
+    ATM(float initialBalance = 0.0) {
+        balance = initialBalance;
+        numOfTransactions = 0;
     }
 
-}
 
-int ATM::getTransactions()
-{
-    return numOfTransactions;
+    void initBalance(float amount) {
+        balance = amount;
+        numOfTransactions = 0;
+    }
+
+    //Display balance
+    void showBalance() const {
+        cout << "Current Balance: $" << balance << endl;
+    }
+
+    // Deposit money
+    void deposit(float amount) {
+        balance += amount;
+        numOfTransactions++;
+    }
+
+    // Withdraw money
+    bool withdraw(float amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            numOfTransactions++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Get the number of transactions
+    int getTransactions() const {
+        return numOfTransactions;
+    }
+};
+
+int main() {
+    // Create object
+    ATM atm_obj;
+    atm_obj.initBalance(250.0);
+
+    //Show Balance
+    atm_obj.showBalance(); // Should show $250
+
+    //Deposit
+    atm_obj.deposit(250.0);
+
+    // Show Balance
+    atm_obj.showBalance(); // Should show $500
+
+    //  Withdraw $100
+    if (atm_obj.withdraw(100.0)) {
+        cout << "Please take cash. Remaining balance:";
+        atm_obj.showBalance(); // Should show $400
+    } else {
+        cout << "Not enough money." << endl;
+        atm_obj.showBalance();
+    }
+
+
+    cout << "Total Transactions: " << atm_obj.getTransactions() << endl;
+
+    return 0;
 }
